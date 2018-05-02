@@ -1,29 +1,24 @@
 import React, { Component } from 'react';
+import 'reset-css/reset.css';
 import './App.css';
 import queryString from  'query-string';
 
 
 let defaultTextColor = '#fff'
 let defaultStyle = {
+  'font-family': 'Helvetica',
   color: defaultTextColor
 }
 
-let fakeServerData = {
-  user: {
-    name: 'Gokhan',
-    playlists: [
-      {
-        name: 'My favs',
-        songs: [{name: 'Beat it', duration: 1166}, {name: 'makaroni', duration: 1423}, {name: 'rockstar', duration: 5422 }]
-      }
-    ]
-  }
-}
 
 class PlaylistCounter extends Component {
   render(){
     return(
-      <div style={{display: 'inline-block', width: '40%'}} >
+      <div style={{
+          display: 'inline-block',
+          width: '40%',
+          'margin-bottom': '10px'
+        }} >
         <h2 style={{...defaultStyle}}>{this.props.playlists.length} Playlist </h2>
       </div>
 
@@ -65,7 +60,12 @@ class Playlist extends Component {
   render(){
     let playlist = this.props.playlist
     return(
-      <div style={{...defaultStyle, display: 'inline-block', width: '20%'}}>
+      <div style={{
+          ...defaultStyle, 
+          display: 'inline-block',
+          width: '20%',
+          'margin-bottom':'10px'
+         }}>
         <img src= {playlist.imageUrl} style={ { width: '50px', height: '50px' } }/>
         <h3>{playlist.name}</h3>
         <ul>
@@ -93,6 +93,7 @@ class App extends Component {
     let accessToken = parsed.access_token;
     if(!accessToken)
       return;
+      console.log(accessToken)
     fetch('https://api.spotify.com/v1/me', {
       headers: {'Authorization': 'Bearer ' + accessToken}
     }).then(response=> response.json())
@@ -161,7 +162,7 @@ class App extends Component {
       <div className="App">
         {this.state.user ?
           <div>
-          <h1 style={{ ...defaultStyle, 'font-size': '54px'}}>
+          <h1 style={{ ...defaultStyle, 'margin-top': '5px' , 'font-size': '54px'}}>
             {this.state.user.name} Playlists
             </h1>
               <PlaylistCounter playlists={playlistToRender }/>
