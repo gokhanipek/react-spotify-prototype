@@ -12,15 +12,8 @@ let defaultStyle = {
 class PlaylistCounter extends Component {
   render() {
     return (
-      <div
-        className=""
-        style={{
-          display: 'inline-block',
-          width: '40%',
-          'margin-bottom': '10px',
-        }}
-      >
-        <h2 style={{ ...defaultStyle }}>{this.props.playlists.length} Playlist </h2>
+      <div>
+        <h2>{this.props.playlists.length} Playlist </h2>
       </div>
     );
   }
@@ -45,10 +38,10 @@ class HoursCounter extends Component {
 class Filter extends Component {
   render() {
     return (
-      <div style={{ ...defaultStyle }}>
-        <img />
-        <input type="text" onKeyUp={event => this.props.onTextChange(event.target.value)} />
-      </div>
+      <form className="form-inline my-2 my-lg-0">
+        <input className="form-control mr-sm-2" type="text" onKeyUp={event => this.props.onTextChange(event.target.value)} placeholder="Search"></input>
+        <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+      </form>
     );
   }
 }
@@ -159,21 +152,21 @@ class App extends Component {
     return (
       <div className="App">
         {this.state.user ? (
-          <div>
-            <h1 style={{ ...defaultStyle, 'margin-top': '5px', 'font-size': '54px' }}>
-              {this.state.user.name} Playlists
-            </h1>
-            <PlaylistCounter playlists={playlistToRender} />
-            <HoursCounter playlists={playlistToRender} />
-            <Filter
-              onTextChange={text => {
-                this.setState({ filterString: text });
-              }}
-            />
-            {playlistToRender.map(playlist => (
-              <Playlist playlist={playlist} />
-            ))}
-          </div>
+          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <div className="collapse navbar-collapse">
+            <a class="navbar-brand" href="#">Navbar</a>
+              <PlaylistCounter playlists={playlistToRender} />
+              <HoursCounter playlists={playlistToRender} />
+              <Filter 
+                onTextChange={text => {
+                  this.setState({ filterString: text });
+                }}
+              />
+              {playlistToRender.map(playlist => (
+                <Playlist playlist={playlist} />
+              ))}
+            </div>
+          </nav>
         ) : (
           <button
             onClick={() => {
