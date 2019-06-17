@@ -10672,3 +10672,7 @@
  .card-title, .card-header {
    color: inherit;
  }
+
+.mb-30 {
+  margin-bottom: 30px;
+}

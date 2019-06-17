@@ -3,34 +3,10 @@ import 'reset-css/reset.css';
 import './App.css';
 import queryString from 'query-string';
 
-let defaultTextColor = '#fff';
-let defaultStyle = {
-  'font-family': 'Helvetica',
-  color: defaultTextColor,
-};
-
 class PlaylistCounter extends Component {
   render() {
     return (
-      <div>
-        <h2>{this.props.playlists.length} Playlist </h2>
-      </div>
-    );
-  }
-}
-
-class HoursCounter extends Component {
-  render() {
-    let allSongs = this.props.playlists.reduce((songs, eachPlaylist) => {
-      return eachPlaylist.songs.concat(eachPlaylist.songs);
-    }, []);
-    let totalDuration = allSongs.reduce((sum, eachSong) => {
-      return sum + eachSong.duration;
-    }, 0);
-    return (
-      <div style={{ ...defaultStyle, width: '40%', display: 'inline-block' }}>
-        <h2> {Math.round(totalDuration / 60)} Hours </h2>
-      </div>
+        <a className="nav-link">{this.props.playlists.length} Playlist </a>
     );
   }
 }
@@ -49,23 +25,27 @@ class Filter extends Component {
 class Playlist extends Component {
   render() {
     let playlist = this.props.playlist;
+    const imgStyle = {
+      height: 'auto',
+      width: '100%', 
+      display: 'block'
+    }
     return (
-      <div
-        style={{
-          ...defaultStyle,
-          display: 'inline-block',
-          width: '20%',
-          'margin-bottom': '10px',
-        }}
-      >
-        <img src={playlist.imageUrl} style={{ width: '50px', height: '50px' }} />
-        <h3>{playlist.name}</h3>
-        <ul>
-          {playlist.songs.map(song => (
-            <li>{song.name}</li>
-          ))}
-        </ul>
-      </div>
+
+          <div className="col-md-3 ">
+            <div className="card mb-3">
+              <h3 className="card-header">{playlist.name}</h3>
+              <img style={imgStyle} src={playlist.imageUrl} alt="Card"></img>
+              <ul className="list-group list-group-flush">
+                  {playlist.songs.map(song => (
+                    <li className="list-group-item">{song.name}</li>
+                  ))}
+              </ul>
+            <div className="card-footer text-muted">
+              2 days ago
+            </div>
+          </div>
+        </div>
     );
   }
 }
@@ -152,21 +132,26 @@ class App extends Component {
     return (
       <div className="App">
         {this.state.user ? (
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="collapse navbar-collapse">
-            <a class="navbar-brand" href="#">Navbar</a>
-              <PlaylistCounter playlists={playlistToRender} />
-              <HoursCounter playlists={playlistToRender} />
-              <Filter 
-                onTextChange={text => {
-                  this.setState({ filterString: text });
-                }}
-              />
-              {playlistToRender.map(playlist => (
-                <Playlist playlist={playlist} />
-              ))}
-            </div>
-          </nav>
+          <div>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light mb-30">
+              <div className="collapse navbar-collapse">
+              <a class="navbar-brand">{this.state.user.name}'s Playlists</a>
+                <PlaylistCounter playlists={playlistToRender} />
+                <Filter 
+                  onTextChange={text => {
+                    this.setState({ filterString: text });
+                  }}
+                />
+              </div>
+              </nav>
+              <div className="container">
+                <div className="col-md-12">
+                    <div className="row">
+                      { playlistToRender.map(playlist => ( <Playlist playlist={playlist} /> ))}
+                    </div>
+                  </div>
+              </div>
+          </div>
         ) : (
           <button
             onClick={() => {
