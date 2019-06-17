@@ -42,7 +42,7 @@ class Playlist extends Component {
                   ))}
               </ul>
             <div className="card-footer text-muted">
-              2 days ago
+              <p> {playlist.tracks} kickass tracks</p>
             </div>
           </div>
         </div>
@@ -112,6 +112,7 @@ class App extends Component {
               songs: item.trackDatas.slice(0, 5).map(trackData => ({
                 name: trackData.name,
               })),
+              tracks: item.tracks.total
             };
           }),
         }),
@@ -135,7 +136,7 @@ class App extends Component {
           <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light mb-30">
               <div className="collapse navbar-collapse">
-              <a class="navbar-brand">{this.state.user.name}'s Playlists</a>
+              <a className="navbar-brand">{this.state.user.name}'s Playlists</a>
                 <PlaylistCounter playlists={playlistToRender} />
                 <Filter 
                   onTextChange={text => {
